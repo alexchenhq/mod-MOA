@@ -1,0 +1,79 @@
+#
+# mod-moa — My Own Azeroth
+# Progression stages + opt-in challenges for a personal AzerothCore server.
+#
+
+[worldserver]
+
+###################################################################################################
+# General
+###################################################################################################
+
+# MOA.Enable
+#        Description: Enable the module.
+#        Default:     1
+MOA.Enable = 1
+
+# MOA.StartStage
+#        Description: Stage used only when moa_state has no row yet (first start).
+#                     After that the current stage is stored in the database and
+#                     changed with `.moa stage next` / `.moa stage set N`.
+#        Default:     1
+MOA.StartStage = 1
+
+# MOA.MaxLevels
+#        Description: Level cap per stage, comma separated, index 1 = stage 1.
+#                     The number of entries defines how many stages exist.
+#                     IMPORTANT: MaxPlayerLevel in worldserver.conf must be >= the
+#                     highest value here (normally 80), otherwise the core caps
+#                     players before the module allows them to level.
+#        Default:     60,60,60,70,70,70,70,80,80,80,80,80
+MOA.MaxLevels = 60,60,60,70,70,70,70,80,80,80,80,80
+
+# MOA.AnnounceLockedInstance
+#        Description: Send a chat message when a player is denied entry to a locked instance.
+#        Default:     1
+MOA.AnnounceLockedInstance = 1
+
+# MOA.DisableRDF
+#        Description: Block the dungeon finder. Random dungeons can roll instances that
+#                     are not unlocked yet, which leaves the group stuck on a failed teleport.
+#        Default:     1
+MOA.DisableRDF = 1
+
+###################################################################################################
+# Semi-Hardcore
+###################################################################################################
+
+# MOA.SemiHardcore.Enable
+#        Description: Allow players to opt in to semi-hardcore at level 1 (DK 55).
+#                     Dying to a creature in the open world destroys all equipped items
+#                     and removes all carried gold. Cannot be turned off once enabled.
+#        Default:     1
+MOA.SemiHardcore.Enable = 1
+
+# MOA.SemiHardcore.ExcludeDungeon
+#        Description: Deaths inside dungeons and raids do not trigger the penalty.
+#        Default:     1
+MOA.SemiHardcore.ExcludeDungeon = 1
+
+# MOA.SemiHardcore.ExcludeBattleground
+#        Description: Deaths inside battlegrounds and arenas do not trigger the penalty.
+#                     PvP deaths in the open world never trigger it either (they do not
+#                     reach OnPlayerKilledByCreature).
+#        Default:     1
+MOA.SemiHardcore.ExcludeBattleground = 1
+
+###################################################################################################
+# Slow XP
+###################################################################################################
+
+# MOA.SlowXP.Enable
+#        Description: Allow players to opt in to slow experience gain.
+#        Default:     1
+MOA.SlowXP.Enable = 1
+
+# MOA.SlowXP.Multiplier
+#        Description: Experience multiplier applied to players with the slow XP challenge.
+#        Default:     0.5
+MOA.SlowXP.Multiplier = 0.5

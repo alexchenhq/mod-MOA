@@ -149,67 +149,46 @@ private:
         return true;
     }
 
-    static bool HandleChallengeOn(ChatHandler* handler, std::string mode)
+    // One challenge, both effects. Any extra argument is ignored so the old
+    // ".moa challenge on semi/slow" spelling keeps working without surprises.
+    static bool HandleChallengeOn(ChatHandler* handler, Optional<std::string> /*ignored*/)
     {
         Player* player = GetSessionPlayer(handler);
         if (!player)
             return false;
 
-        std::transform(mode.begin(), mode.end(), mode.begin(), [](unsigned char c) { return char(std::tolower(c)); });
-
-        bool const isSemi = mode == "semi" || mode == "semi-hardcore" || mode == "semihardcore";
-        bool const isSlow = mode == "slow" || mode == "slowxp" || mode == "slow-xp";
-
-        if (!isSemi && !isSlow)
+        if (sMOA->HasFullChallenge(player))
         {
-            handler->PSendSysMessage(CmdText(handler, MOAMsg::ChallengeUsage));
+            handler->PSendSysMessage(CmdText(handler, MOAMsg::ChallengeAlready));
             return true;
         }
+
+        if (!sMOA->SemiHardcoreOn() || !sMOA->SlowXpOn())
+        {
+            handler->PSendSysMessage(CmdText(handler, MOAMsg::ChallengeDisabled));
+            return true;
+        }
+
+        // A character that already carries one of the two old flags can always
+        // complete the set, even past level 1 — otherwise it would be stuck with
+        // half a challenge and never qualify for rewards.
+        bool const partial = sMOA->PlayerHas(player, MOA_CHALLENGE_SEMI_HARDCORE)
+                          || sMOA->PlayerHas(player, MOA_CHALLENGE_SLOW_XP);
 
         bool const levelOk = player->GetLevel() == 1
             || (player->getClass() == CLASS_DEATH_KNIGHT && player->GetLevel() <= 55);
 
-        if (!levelOk)
+        if (!partial && !levelOk)
         {
             handler->PSendSysMessage(CmdText(handler, MOAMsg::ChallengeLevel));
             return true;
         }
 
-        if (isSemi)
-        {
-            if (!sMOA->SemiHardcoreOn())
-            {
-                handler->PSendSysMessage(CmdText(handler, MOAMsg::SemiDisabled));
-                return true;
-            }
+        sMOA->GrantChallenge(player, MOA_CHALLENGE_SEMI_HARDCORE);
+        sMOA->GrantChallenge(player, MOA_CHALLENGE_SLOW_XP);
 
-            if (sMOA->PlayerHas(player, MOA_CHALLENGE_SEMI_HARDCORE))
-            {
-                handler->PSendSysMessage(CmdText(handler, MOAMsg::SemiAlready));
-                return true;
-            }
-
-            sMOA->GrantChallenge(player, MOA_CHALLENGE_SEMI_HARDCORE);
-            handler->PSendSysMessage(CmdText(handler, MOAMsg::SemiEnabled));
-        }
-        else
-        {
-            if (!sMOA->SlowXpOn())
-            {
-                handler->PSendSysMessage(CmdText(handler, MOAMsg::SlowDisabled));
-                return true;
-            }
-
-            if (sMOA->PlayerHas(player, MOA_CHALLENGE_SLOW_XP))
-            {
-                handler->PSendSysMessage(CmdText(handler, MOAMsg::SlowAlready));
-                return true;
-            }
-
-            sMOA->GrantChallenge(player, MOA_CHALLENGE_SLOW_XP);
-            handler->PSendSysMessage(CmdText(handler, MOAMsg::SlowEnabled),
-                uint32(sMOA->SlowXpMultiplier() * 100.0f));
-        }
+        handler->PSendSysMessage(CmdText(handler, MOAMsg::ChallengeEnabled),
+            uint32(sMOA->SlowXpMultiplier() * 100.0f));
 
         return true;
     }

@@ -139,8 +139,8 @@ namespace MOAMsg
     };
 
     constexpr MOALocaleText ChallengeUsage = {
-        "|cffff8000[MOA]|r Usage: .moa challenge on semi | slow",
-        "|cffff8000[MOA]|r 用法：.moa challenge on semi | slow"
+        "|cffff8000[MOA]|r Usage: .moa challenge on",
+        "|cffff8000[MOA]|r 用法：.moa challenge on"
     };
 
     constexpr MOALocaleText ChallengeLevel = {
@@ -148,34 +148,23 @@ namespace MOAMsg
         "|cffff8000[MOA]|r 挑战只能在 1 级（死亡骑士 55 级）时开启。"
     };
 
-    constexpr MOALocaleText SemiDisabled = {
-        "|cffff8000[MOA]|r Semi-hardcore is disabled in the configuration.",
-        "|cffff8000[MOA]|r 半硬核模式已在配置中关闭。"
+    constexpr MOALocaleText ChallengeDisabled = {
+        "|cffff8000[MOA]|r Challenge mode is disabled in the configuration.",
+        "|cffff8000[MOA]|r 挑战模式已在配置中关闭。"
     };
 
-    constexpr MOALocaleText SemiAlready = {
-        "|cffff8000[MOA]|r Semi-hardcore is already enabled.",
-        "|cffff8000[MOA]|r 你已开启半硬核模式。"
+    constexpr MOALocaleText ChallengeAlready = {
+        "|cffff8000[MOA]|r Challenge mode is already enabled.",
+        "|cffff8000[MOA]|r 挑战模式已开启。"
     };
 
-    constexpr MOALocaleText SemiEnabled = {
-        "|cffDA70D6[MOA]|r Semi-hardcore enabled: dying to a creature in the open world costs all equipped items and carried gold. Dungeons, battlegrounds, arenas and PvP deaths do not trigger it. This cannot be undone.",
-        "|cffDA70D6[MOA]|r 半硬核已开启：野外被怪物杀死将失去全部装备和金币。副本、战场、竞技场及 PvP 死亡不触发。此模式无法关闭。"
-    };
-
-    constexpr MOALocaleText SlowDisabled = {
-        "|cffff8000[MOA]|r Slow XP is disabled in the configuration.",
-        "|cffff8000[MOA]|r 慢速经验已在配置中关闭。"
-    };
-
-    constexpr MOALocaleText SlowAlready = {
-        "|cffff8000[MOA]|r Slow XP is already enabled.",
-        "|cffff8000[MOA]|r 你已开启慢速经验。"
-    };
-
-    constexpr MOALocaleText SlowEnabled = {
-        "|cffDA70D6[MOA]|r Slow XP enabled: experience gain is {}% of normal.",
-        "|cffDA70D6[MOA]|r 慢速经验已开启：经验获取为正常的 {}%。"
+    constexpr MOALocaleText ChallengeEnabled = {
+        "|cffDA70D6[MOA]|r Challenge mode enabled: semi-hardcore + slow XP ({}% experience). "
+        "Dying to a creature in the open world costs all equipped items and carried gold. "
+        "Dungeons, battlegrounds, arenas and PvP deaths do not trigger the penalty. This cannot be undone.",
+        "|cffDA70D6[MOA]|r 挑战模式已开启：半硬核 + 慢速经验（{}% 经验）。"
+        "野外被怪物杀死将失去全部装备和金币。"
+        "副本、战场、竞技场及 PvP 死亡不触发。此模式无法关闭。"
     };
 
     constexpr MOALocaleText ReloadOk = {

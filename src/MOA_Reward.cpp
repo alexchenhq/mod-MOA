@@ -118,7 +118,7 @@ public:
         // already been calculated with the previous value. Recompute on change.
         SyncTalentBonus(player, true);
 
-        if (!sMOA->HasAnyChallenge(player))
+        if (!sMOA->HasFullChallenge(player))
             return;
 
         uint8 const level = player->GetLevel();
@@ -140,7 +140,7 @@ public:
 private:
     static void SyncTalentBonus(Player* player, bool reapply)
     {
-        uint32 const expected = sMOA->HasAnyChallenge(player) ? BonusTalentPoints(player->GetLevel()) : 0;
+        uint32 const expected = sMOA->HasFullChallenge(player) ? BonusTalentPoints(player->GetLevel()) : 0;
 
         if (player->GetBonusTalentCount() == expected)
             return;

@@ -59,7 +59,8 @@ public:
     void Broadcast(std::string const& text) const;
 
     [[nodiscard]] bool PlayerHas(Player* player, MOAChallenge challenge) const;
-    [[nodiscard]] bool HasAnyChallenge(Player* player) const;
+    //! Challenge mode is all-or-nothing: both flags must be set.
+    [[nodiscard]] bool HasFullChallenge(Player* player) const;
     void GrantChallenge(Player* player, MOAChallenge challenge);
 
     [[nodiscard]] bool  SemiHardcoreOn()      const { return _semiHardcore; }

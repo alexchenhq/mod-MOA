@@ -69,7 +69,7 @@ MOA.Challenge.Enable = 1
 # MOA.Challenge.XpMultiplier
 #        Description: Experience multiplier for challenge characters.
 #        Default:     0.5
-MOA.Challenge.XpMultiplier = 0.5
+MOA.Challenge.XpMultiplier = 0.7
 
 # MOA.Challenge.ExcludeDungeon
 #        Description: Deaths inside dungeons and raids do not trigger the penalty.

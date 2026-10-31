@@ -87,7 +87,7 @@ private:
     bool  _challenge        = true;
     bool  _excludeDungeon   = true;
     bool  _excludeBg        = true;
-    float _challengeXpMul   = 0.5f;
+    float _challengeXpMul   = 0.7f;
 
     uint8               _currentStage = 1;
     std::vector<uint32> _maxLevels;

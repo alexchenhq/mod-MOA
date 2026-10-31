@@ -55,9 +55,9 @@ void MOAMgr::LoadConfig(bool reload)
     _excludeDungeon = sConfigMgr->GetOption<bool>("MOA.Challenge.ExcludeDungeon", true);
     _excludeBg      = sConfigMgr->GetOption<bool>("MOA.Challenge.ExcludeBattleground", true);
 
-    _challengeXpMul = sConfigMgr->GetOption<float>("MOA.Challenge.XpMultiplier", 0.5f);
+    _challengeXpMul = sConfigMgr->GetOption<float>("MOA.Challenge.XpMultiplier", 0.7f);
     if (_challengeXpMul <= 0.0f)
-        _challengeXpMul = 0.5f;
+        _challengeXpMul = 0.7f;
 
     _maxLevels = ParseLevelList(sConfigMgr->GetOption<std::string>("MOA.MaxLevels", "60,60,60,70,70,70,70,80,80,80,80,80"));
     if (_maxLevels.empty())

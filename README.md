@@ -113,7 +113,7 @@ Not triggered by:
 
 Bank and bags are untouched; only equipped slots are destroyed.
 
-**Slow XP** — `MOA.Challenge.XpMultiplier` (default `0.5`), applied after the
+**Slow XP** — `MOA.Challenge.XpMultiplier` (default `0.7`), applied after the
 level-cap check so it stacks correctly with the stage cap.
 
 ## Challenge rewards

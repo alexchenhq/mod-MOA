@@ -63,13 +63,12 @@ public:
     [[nodiscard]] bool HasFullChallenge(Player* player) const;
     void GrantChallenge(Player* player, MOAChallenge challenge);
 
-    [[nodiscard]] bool  SemiHardcoreOn()      const { return _semiHardcore; }
-    [[nodiscard]] bool  SlowXpOn()            const { return _slowXp; }
-    [[nodiscard]] float SlowXpMultiplier()    const { return _slowXpMul; }
-    [[nodiscard]] bool  ExcludeDungeon()      const { return _excludeDungeon; }
-    [[nodiscard]] bool  ExcludeBattleground() const { return _excludeBg; }
-    [[nodiscard]] bool  DisableRdf()          const { return _disableRdf; }
-    [[nodiscard]] bool  AnnounceLocked()      const { return _announceLocked; }
+    [[nodiscard]] bool  ChallengeOn()            const { return _challenge; }
+    [[nodiscard]] float ChallengeXpMultiplier()  const { return _challengeXpMul; }
+    [[nodiscard]] bool  ExcludeDungeon()         const { return _excludeDungeon; }
+    [[nodiscard]] bool  ExcludeBattleground()    const { return _excludeBg; }
+    [[nodiscard]] bool  DisableRdf()             const { return _disableRdf; }
+    [[nodiscard]] bool  AnnounceLocked()         const { return _announceLocked; }
 
     [[nodiscard]] std::unordered_map<uint32, uint8> const& InstanceUnlocks() const { return _instanceStage; }
     [[nodiscard]] std::unordered_map<uint8, MOAStageBosses> const& StageBosses() const { return _stageBosses; }
@@ -82,14 +81,13 @@ private:
     void CollectBoss(uint32 entry, uint32 base, MOAStageBosses& out);
     void CollectKills(uint8 stage, std::unordered_set<uint32>& out) const;
 
-    bool  _enabled        = true;
-    bool  _announceLocked = true;
-    bool  _disableRdf     = true;
-    bool  _semiHardcore   = true;
-    bool  _excludeDungeon = true;
-    bool  _excludeBg      = true;
-    bool  _slowXp         = true;
-    float _slowXpMul      = 0.5f;
+    bool  _enabled          = true;
+    bool  _announceLocked   = true;
+    bool  _disableRdf       = true;
+    bool  _challenge        = true;
+    bool  _excludeDungeon   = true;
+    bool  _excludeBg        = true;
+    float _challengeXpMul   = 0.5f;
 
     uint8               _currentStage = 1;
     std::vector<uint32> _maxLevels;

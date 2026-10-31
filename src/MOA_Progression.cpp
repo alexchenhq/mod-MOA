@@ -74,8 +74,8 @@ public:
         }
 
         // Slow XP challenge.
-        if (sMOA->SlowXpOn() && sMOA->PlayerHas(player, MOA_CHALLENGE_SLOW_XP))
-            amount = std::max<uint32>(1, uint32(float(amount) * sMOA->SlowXpMultiplier()));
+        if (sMOA->ChallengeOn() && sMOA->PlayerHas(player, MOA_CHALLENGE_SLOW_XP))
+            amount = std::max<uint32>(1, uint32(float(amount) * sMOA->ChallengeXpMultiplier()));
     }
 
     void OnPlayerSetMaxLevel(Player* /*player*/, uint32& maxPlayerLevel) override

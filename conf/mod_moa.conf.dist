@@ -50,38 +50,35 @@ MOA.AnnounceLockedInstance = 1
 MOA.DisableRDF = 1
 
 ###################################################################################################
-# Semi-Hardcore
+# Challenge mode (semi-hardcore + slow XP, one package)
 ###################################################################################################
 
-# MOA.SemiHardcore.Enable
-#        Description: Allow players to opt in to semi-hardcore at level 1 (DK 55).
-#                     Dying to a creature in the open world destroys all equipped items
-#                     and removes all carried gold. Cannot be turned off once enabled.
+# MOA.Challenge.Enable
+#        Description: Allow characters to enable the challenge with `.moa challenge on`
+#                     at level 1 (death knight: 55 or lower).
+#                     The challenge is all-or-nothing and includes:
+#                       - semi-hardcore: dying to a creature in the open world destroys
+#                         all equipped items and removes all carried gold
+#                       - slow XP: experience gain multiplied by MOA.Challenge.XpMultiplier
+#                     Rewards (talent points, weapons at 60/70/80) are only granted to
+#                     characters that have the full challenge enabled.
+#                     Cannot be turned off once enabled.
 #        Default:     1
-MOA.SemiHardcore.Enable = 1
+MOA.Challenge.Enable = 1
 
-# MOA.SemiHardcore.ExcludeDungeon
+# MOA.Challenge.XpMultiplier
+#        Description: Experience multiplier for challenge characters.
+#        Default:     0.5
+MOA.Challenge.XpMultiplier = 0.5
+
+# MOA.Challenge.ExcludeDungeon
 #        Description: Deaths inside dungeons and raids do not trigger the penalty.
 #        Default:     1
-MOA.SemiHardcore.ExcludeDungeon = 1
+MOA.Challenge.ExcludeDungeon = 1
 
-# MOA.SemiHardcore.ExcludeBattleground
+# MOA.Challenge.ExcludeBattleground
 #        Description: Deaths inside battlegrounds and arenas do not trigger the penalty.
 #                     PvP deaths in the open world never trigger it either (they do not
 #                     reach OnPlayerKilledByCreature).
 #        Default:     1
-MOA.SemiHardcore.ExcludeBattleground = 1
-
-###################################################################################################
-# Slow XP
-###################################################################################################
-
-# MOA.SlowXP.Enable
-#        Description: Allow players to opt in to slow experience gain.
-#        Default:     1
-MOA.SlowXP.Enable = 1
-
-# MOA.SlowXP.Multiplier
-#        Description: Experience multiplier applied to players with the slow XP challenge.
-#        Default:     0.5
-MOA.SlowXP.Multiplier = 0.5
+MOA.Challenge.ExcludeBattleground = 1

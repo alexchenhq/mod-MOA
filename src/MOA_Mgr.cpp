@@ -51,14 +51,13 @@ void MOAMgr::LoadConfig(bool reload)
     _announceLocked = sConfigMgr->GetOption<bool>("MOA.AnnounceLockedInstance", true);
     _disableRdf     = sConfigMgr->GetOption<bool>("MOA.DisableRDF", true);
 
-    _semiHardcore   = sConfigMgr->GetOption<bool>("MOA.SemiHardcore.Enable", true);
-    _excludeDungeon = sConfigMgr->GetOption<bool>("MOA.SemiHardcore.ExcludeDungeon", true);
-    _excludeBg      = sConfigMgr->GetOption<bool>("MOA.SemiHardcore.ExcludeBattleground", true);
+    _challenge      = sConfigMgr->GetOption<bool>("MOA.Challenge.Enable", true);
+    _excludeDungeon = sConfigMgr->GetOption<bool>("MOA.Challenge.ExcludeDungeon", true);
+    _excludeBg      = sConfigMgr->GetOption<bool>("MOA.Challenge.ExcludeBattleground", true);
 
-    _slowXp    = sConfigMgr->GetOption<bool>("MOA.SlowXP.Enable", true);
-    _slowXpMul = sConfigMgr->GetOption<float>("MOA.SlowXP.Multiplier", 0.5f);
-    if (_slowXpMul <= 0.0f)
-        _slowXpMul = 0.5f;
+    _challengeXpMul = sConfigMgr->GetOption<float>("MOA.Challenge.XpMultiplier", 0.5f);
+    if (_challengeXpMul <= 0.0f)
+        _challengeXpMul = 0.5f;
 
     _maxLevels = ParseLevelList(sConfigMgr->GetOption<std::string>("MOA.MaxLevels", "60,60,60,70,70,70,70,80,80,80,80,80"));
     if (_maxLevels.empty())

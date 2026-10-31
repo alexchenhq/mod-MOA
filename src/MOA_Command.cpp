@@ -163,7 +163,7 @@ private:
             return true;
         }
 
-        if (!sMOA->SemiHardcoreOn() || !sMOA->SlowXpOn())
+        if (!sMOA->ChallengeOn())
         {
             handler->PSendSysMessage(CmdText(handler, MOAMsg::ChallengeDisabled));
             return true;
@@ -188,7 +188,7 @@ private:
         sMOA->GrantChallenge(player, MOA_CHALLENGE_SLOW_XP);
 
         handler->PSendSysMessage(CmdText(handler, MOAMsg::ChallengeEnabled),
-            uint32(sMOA->SlowXpMultiplier() * 100.0f));
+            uint32(sMOA->ChallengeXpMultiplier() * 100.0f));
 
         return true;
     }

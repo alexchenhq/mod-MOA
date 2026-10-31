@@ -5,7 +5,7 @@ A deliberately small progression + challenge module for a **personal** AzerothCo
 It does two things:
 
 1. **Stage-based progression** — every stage defines a level cap and a set of instances. Clearing all end bosses of the current stage unlocks the next one automatically.
-2. **Two opt-in challenges** — Semi-Hardcore and Slow XP.
+2. **One opt-in challenge** — semi-hardcore + slow XP as a single package, with talent and weapon rewards.
 
 It does **not** touch spells, talents, items, creature stats, quests, loot or world phasing. That is the whole point: no retroactive content rewriting means it stays fully compatible with `mod-playerbots`.
 
@@ -90,31 +90,51 @@ Difficulty variants are expanded automatically from `creature_template.difficult
 | `.moa stage set <n>` | GM | Jump to a stage |
 | `.moa stage next` | GM | Advance one stage (also used to skip a stuck stage) |
 | `.moa challenge` | player | Alias of `.moa` for challenge status |
-| `.moa challenge on semi` | player | Enable Semi-Hardcore (level 1, DK 55) |
-| `.moa challenge on slow` | player | Enable Slow XP (level 1, DK 55) |
+| `.moa challenge on` | player | Enable the challenge (level 1, DK 55) |
 | `.moa reload` | GM | Reload config + stage tables |
 
-Challenges are permanent once enabled and are stored per character.
+The challenge is permanent once enabled and is stored per character.
 
 ---
 
-## Challenges
+## Challenge
 
-### Semi-Hardcore
+One challenge, two effects, always enabled together. `.moa challenge on` at level 1
+(death knight: 55 or lower) turns on both:
 
-Dying to a **creature** in the **open world** destroys all equipped items and removes all carried gold.
+**Semi-hardcore** — dying to a **creature** in the **open world** destroys all
+equipped items and removes all carried gold.
 
 Not triggered by:
 
-- deaths inside dungeons and raids (`MOA.SemiHardcore.ExcludeDungeon`)
-- deaths inside battlegrounds and arenas (`MOA.SemiHardcore.ExcludeBattleground`)
+- deaths inside dungeons and raids (`MOA.Challenge.ExcludeDungeon`)
+- deaths inside battlegrounds and arenas (`MOA.Challenge.ExcludeBattleground`)
 - **any PvP death** — those fire `OnPlayerPVPKill`, a different hook, so the penalty code is never reached
 
 Bank and bags are untouched; only equipped slots are destroyed.
 
-### Slow XP
+**Slow XP** — `MOA.Challenge.XpMultiplier` (default `0.5`), applied after the
+level-cap check so it stacks correctly with the stage cap.
 
-`MOA.SlowXP.Multiplier` (default `0.5`). Applied after the level-cap check, so it stacks correctly with the stage cap.
+## Challenge rewards
+
+Only characters with the full challenge enabled receive these. Values are
+hard-coded on purpose.
+
+| Level | Talent points | Weapons (mailed) |
+|---|---|---|
+| 15 / 25 / 35 / 45 / 55 | +1 each | — |
+| 60 | — | 90010 + 90020 |
+| 65 | +2 | — |
+| 70 | — | 90011 + 90021 |
+| 75 | +2 | — |
+| 80 | — | 90012 + 90022 |
+
+Talent points go into the native `characters.extraBonusTalentCount` column via
+`Player::SetBonusTalentCount()`, so they survive respecs, level ups and relogs.
+`CalculateTalentsPoints()` already adds that field before any script hook runs.
+
+Milestones are recorded per character, so a GM level jump cannot double-send.
 
 ---
 

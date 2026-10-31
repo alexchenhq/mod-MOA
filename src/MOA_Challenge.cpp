@@ -25,7 +25,7 @@ public:
 
     void OnPlayerKilledByCreature(Creature* /*killer*/, Player* player) override
     {
-        if (!sMOA->Enabled() || !sMOA->SemiHardcoreOn() || !player)
+        if (!sMOA->Enabled() || !sMOA->ChallengeOn() || !player)
             return;
 
         if (!sMOA->PlayerHas(player, MOA_CHALLENGE_SEMI_HARDCORE))

@@ -33,12 +33,14 @@ public:
     {
         static ChatCommandTable stageTable =
         {
+            { "",     HandleInfo,      SEC_PLAYER,     Console::Yes },
             { "set",  HandleStageSet,  SEC_GAMEMASTER, Console::Yes },
             { "next", HandleStageNext, SEC_GAMEMASTER, Console::Yes },
         };
 
         static ChatCommandTable challengeTable =
         {
+            { "",   HandleInfo,        SEC_PLAYER, Console::No },
             { "on", HandleChallengeOn, SEC_PLAYER, Console::No },
         };
 

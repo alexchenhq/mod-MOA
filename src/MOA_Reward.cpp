@@ -11,9 +11,11 @@
  *                   70 -> 90011 + 90021
  *                   80 -> 90012 + 90022
  *
- * Talent points are added inside OnPlayerCalculateTalentsPoints instead of being
- * granted once: InitTalentForLevel() recomputes the pool on every level up and
- * would silently overwrite a one-off bonus.
+ * Talent points are stored in the native `characters.extraBonusTalentCount`
+ * column via Player::SetBonusTalentCount(), not granted as free points and not
+ * added inside a script hook. CalculateTalentsPoints() already adds that field
+ * before any hook runs, so the bonus survives respecs, level ups and relogs
+ * without MOA having to re-grant anything.
  */
 
 #include "MOA.h"
@@ -96,23 +98,25 @@ class MOA_RewardScript : public PlayerScript
 public:
     MOA_RewardScript() : PlayerScript("MOA_RewardScript") { }
 
-    void OnPlayerCalculateTalentsPoints(Player const* player, uint32& talentPointsForLevel) override
+    // Keep characters.extraBonusTalentCount in sync with the level. Login covers
+    // GM level changes, level up covers normal play; both only recompute when the
+    // value actually changed, so a normal respec never regenerates anything.
+    void OnPlayerLogin(Player* player) override
     {
         if (!sMOA->Enabled() || !player)
             return;
 
-        // The hook only hands out a const pointer; GetPlayerSetting is not const.
-        Player* mutablePlayer = const_cast<Player*>(player);
-        if (!sMOA->HasAnyChallenge(mutablePlayer))
-            return;
-
-        talentPointsForLevel += BonusTalentPoints(player->GetLevel());
+        SyncTalentBonus(player, true);
     }
 
     void OnPlayerLevelChanged(Player* player, uint8 /*oldlevel*/) override
     {
         if (!sMOA->Enabled() || !player)
             return;
+
+        // GiveLevel() runs InitTalentForLevel() *before* this hook, so the pool has
+        // already been calculated with the previous value. Recompute on change.
+        SyncTalentBonus(player, true);
 
         if (!sMOA->HasAnyChallenge(player))
             return;
@@ -131,6 +135,20 @@ public:
             player->UpdatePlayerSetting(REWARD_SOURCE, reward.settingIndex, 1);
             SendRewardMail(player, reward);
         }
+    }
+
+private:
+    static void SyncTalentBonus(Player* player, bool reapply)
+    {
+        uint32 const expected = sMOA->HasAnyChallenge(player) ? BonusTalentPoints(player->GetLevel()) : 0;
+
+        if (player->GetBonusTalentCount() == expected)
+            return;
+
+        player->SetBonusTalentCount(expected);
+
+        if (reapply)
+            player->InitTalentForLevel();
     }
 };
 

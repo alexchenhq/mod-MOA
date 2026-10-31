@@ -203,6 +203,17 @@ namespace MOAMsg
         "|cffffd700[MOA]|r The final stage is complete. The world ends here.",
         "|cffffd700[MOA]|r 最终阶段已完成。世界走到了尽头。"
     };
+
+    // ---------------------------------------------------------------------- rewards
+    constexpr MOALocaleText RewardMailSubject = {
+        "Challenge reward: level {}",
+        "挑战奖励：{} 级"
+    };
+
+    constexpr MOALocaleText RewardMailBody = {
+        "Your challenge character reached level {}. Take your reward from the attachment, and keep going.",
+        "你的挑战角色已达到 {} 级。附件是这一档的奖励，继续往前走吧。"
+    };
 }
 
 #endif // MOD_MOA_LOCALE_H

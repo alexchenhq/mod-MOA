@@ -8,6 +8,7 @@ void AddMOAWorldScript();
 void AddMOAProgressionScript();
 void AddMOAChallengeScript();
 void AddMOACommandScript();
+void AddMOARewardScript();
 
 void Addmod_moaScripts()
 {
@@ -15,4 +16,5 @@ void Addmod_moaScripts()
     AddMOAProgressionScript();
     AddMOAChallengeScript();
     AddMOACommandScript();
+    AddMOARewardScript();
 }

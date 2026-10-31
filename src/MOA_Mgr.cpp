@@ -319,6 +319,14 @@ bool MOAMgr::PlayerHas(Player* player, MOAChallenge challenge) const
     return player->GetPlayerSetting(MOA_SOURCE, challenge).value != 0;
 }
 
+bool MOAMgr::HasAnyChallenge(Player* player) const
+{
+    if (!player)
+        return false;
+
+    return PlayerHas(player, MOA_CHALLENGE_SEMI_HARDCORE) || PlayerHas(player, MOA_CHALLENGE_SLOW_XP);
+}
+
 void MOAMgr::GrantChallenge(Player* player, MOAChallenge challenge)
 {
     if (!player || PlayerHas(player, challenge))

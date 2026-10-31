@@ -75,6 +75,12 @@ void MOAMgr::LoadConfig(bool reload)
     else
         _language = MOA_LANG_ZH;
 
+    // A reload may shrink the stage list (MOA.MaxLevels); keep the pointer valid.
+    if (_currentStage < 1)
+        _currentStage = 1;
+    else if (_currentStage > StageCount())
+        _currentStage = StageCount();
+
     if (reload)
         LOG_INFO("module", "Configuration reloaded ({} stages, current stage {}).", uint32(_maxLevels.size()), uint32(_currentStage));
 }

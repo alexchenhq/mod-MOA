@@ -26,12 +26,18 @@ public:
 
     // ---------------------------------------------------------------- instances
     bool OnPlayerCanEnterMap(Player* player, MapEntry const* entry, InstanceTemplate const* /*instance*/,
-                             MapDifficulty const* /*mapDiff*/, bool /*loginCheck*/) override
+                             MapDifficulty const* /*mapDiff*/, bool loginCheck) override
     {
         if (!sMOA->Enabled() || !entry || !entry->IsDungeon())
             return true;
 
         if (player->IsGameMaster())
+            return true;
+
+        // A character that logged out inside an instance which got locked later
+        // (stage rollback) must still be able to log in. Refusing here would fail
+        // the whole login instead of just blocking re-entry.
+        if (loginCheck)
             return true;
 
         uint8 const needed = sMOA->InstanceStage(entry->MapID);

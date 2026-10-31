@@ -142,6 +142,23 @@ Bank and bags are untouched; only equipped slots are destroyed.
 
 ---
 
+## Localisation
+
+Player-facing messages follow the client's DBC locale. `enUS` and `zhCN` are
+supported; `zhTW` falls back to `zhCN`.
+
+Server-wide broadcasts (stage opened, boss defeated) have no player context, so
+they use `MOA.Locale`: `zhCN` (default), `enUS`, or `auto` to follow `DBC.Locale`.
+
+Every string lives in `src/MOA_Locale.h`. Adding a language means adding one
+field to `MOALocaleText` and one case in `MOALanguageFromLocale()` — no other file
+has to change.
+
+Console log lines stay English on purpose: the Windows console code page is not
+UTF-8 and Chinese output would be mangled there.
+
+---
+
 ## playerbots
 
 Nothing in this module inspects bot state or alters combat, spells or AI, so bots are unaffected by design. The two known boundaries:

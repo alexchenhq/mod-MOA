@@ -30,6 +30,14 @@ MOA.StartStage = 1
 #        Default:     60,60,60,70,70,70,70,80,80,80,80,80
 MOA.MaxLevels = 60,60,60,70,70,70,70,80,80,80,80,80
 
+# MOA.Locale
+#        Description: Language of server-wide broadcasts (stage opened, boss defeated).
+#                     Messages addressed to a single player always follow that
+#                     player's client locale, regardless of this setting.
+#                     Values: zhCN, enUS, auto (follow DBC.Locale)
+#        Default:     zhCN
+MOA.Locale = zhCN
+
 # MOA.AnnounceLockedInstance
 #        Description: Send a chat message when a player is denied entry to a locked instance.
 #        Default:     1

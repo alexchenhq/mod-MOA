@@ -52,7 +52,7 @@ public:
                 continue;
 
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "|cffDA70D6[半硬核]|r 你失去了 |cffffffff|Hitem:{}:0:0:0:0:0:0:0:0|h[{}]|h|r",
+                MOAPlayerText(player, MOAMsg::SemiLostItem),
                 item->GetEntry(), item->GetTemplate()->Name1);
 
             player->DestroyItem(INVENTORY_SLOT_BAG_0, slot, true);
@@ -63,7 +63,7 @@ public:
         player->SetMoney(0);
 
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "|cffDA70D6[半硬核]|r 你在野外倒下了：失去 {} 件装备、{} 铜。",
+            MOAPlayerText(player, MOAMsg::SemiDeath),
             destroyed, lostMoney);
 
         LOG_INFO("module", "Semi-Hardcore: player {} ({}) died in map {} and lost {} items, {} copper.",

@@ -40,7 +40,7 @@ public:
 
         if (sMOA->AnnounceLocked())
             ChatHandler(player->GetSession()).PSendSysMessage(
-                "|cffff8000[MOA]|r 该副本尚未解锁：需要阶段 {}，当前阶段 {}。",
+                MOAPlayerText(player, MOAMsg::InstanceLocked),
                 uint32(needed), uint32(sMOA->CurrentStage()));
 
         return false;
@@ -88,7 +88,7 @@ public:
         player->SetUInt32Value(PLAYER_FIELD_MAX_LEVEL, sMOA->MaxLevel());
 
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "|cff00ccff[MOA]|r 当前阶段 {}/{}，等级上限 {}。",
+            MOAPlayerText(player, MOAMsg::LoginStatus),
             uint32(sMOA->CurrentStage()), uint32(sMOA->StageCount()), sMOA->MaxLevel());
     }
 
@@ -113,7 +113,7 @@ public:
             return true;
 
         ChatHandler(player->GetSession()).PSendSysMessage(
-            "|cffff8000[MOA]|r 随机副本已停用，请自行前往副本门口。");
+            MOAPlayerText(player, MOAMsg::RdfDisabled));
 
         return false;
     }

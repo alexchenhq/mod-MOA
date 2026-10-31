@@ -11,6 +11,7 @@
 #define MOD_MOA_H
 
 #include "Define.h"
+#include "MOA_Locale.h"
 #include "Player.h"
 
 #include <string>
@@ -70,7 +71,10 @@ public:
 
     [[nodiscard]] std::unordered_map<uint32, uint8> const& InstanceUnlocks() const { return _instanceStage; }
     [[nodiscard]] std::unordered_map<uint8, MOAStageBosses> const& StageBosses() const { return _stageBosses; }
-    [[nodiscard]] std::string BossName(uint32 entry) const;
+    [[nodiscard]] std::string BossName(uint32 entry, MOALanguage lang) const;
+
+    //! Language used for server-wide broadcasts (player messages follow the client locale).
+    [[nodiscard]] MOALanguage Language() const { return _language; }
 
 private:
     void CollectBoss(uint32 entry, uint32 base, MOAStageBosses& out);
@@ -87,6 +91,7 @@ private:
 
     uint8               _currentStage = 1;
     std::vector<uint32> _maxLevels;
+    MOALanguage         _language     = MOA_LANG_ZH;
 
     std::unordered_map<uint32, uint8>         _instanceStage; // mapId -> stage
     std::unordered_map<uint8, MOAStageBosses> _stageBosses;   // stage -> bosses

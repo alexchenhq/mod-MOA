@@ -10,6 +10,7 @@
 #include "Log.h"
 #include "ObjectMgr.h"
 #include "StringFormat.h"
+#include "World.h"
 #include "WorldSessionMgr.h"
 
 #include <algorithm>
@@ -65,6 +66,14 @@ void MOAMgr::LoadConfig(bool reload)
         LOG_ERROR("module", "MOA.MaxLevels is empty or invalid, falling back to 80 for every stage.");
         _maxLevels.push_back(80);
     }
+
+    std::string const locale = sConfigMgr->GetOption<std::string>("MOA.Locale", "zhCN");
+    if (locale == "enUS" || locale == "en")
+        _language = MOA_LANG_EN;
+    else if (locale == "auto")
+        _language = MOALanguageFromLocale(sWorld->GetDefaultDbcLocale());
+    else
+        _language = MOA_LANG_ZH;
 
     if (reload)
         LOG_INFO("module", "Configuration reloaded ({} stages, current stage {}).", uint32(_maxLevels.size()), uint32(_currentStage));
@@ -209,10 +218,10 @@ void MOAMgr::SetStage(uint8 stage, bool announce)
         return;
 
     if (stage > previous)
-        Broadcast(Acore::StringFormat("|cff00ccff[MOA]|r 阶段 {} 已开启：等级上限 {}，新的副本已解锁。",
+        Broadcast(Acore::StringFormat(MOALocalized(Language(), MOAMsg::StageOpened),
             uint32(stage), MaxLevel()));
     else
-        Broadcast(Acore::StringFormat("|cffff6600[MOA]|r 阶段已回退至 {}：等级上限 {}。",
+        Broadcast(Acore::StringFormat(MOALocalized(Language(), MOAMsg::StageRolledBack),
             uint32(stage), MaxLevel()));
 
     LOG_INFO("module", "Stage changed {} -> {} (level cap {}).", uint32(previous), uint32(stage), MaxLevel());
@@ -246,15 +255,15 @@ void MOAMgr::OnBossKilled(uint32 entry, Player* killer)
         if (killed.count(boss))
             ++done;
 
-    Broadcast(Acore::StringFormat("|cff00ccff[MOA]|r 关卡尾王 {} 已被击杀（{}/{}）。",
-        BossName(base), uint32(done), uint32(total)));
+    Broadcast(Acore::StringFormat(MOALocalized(Language(), MOAMsg::BossKilled),
+        BossName(base, Language()), uint32(done), uint32(total)));
 
     if (done < total)
         return;
 
     if (_currentStage >= StageCount())
     {
-        Broadcast("|cffffd700[MOA]|r 最终阶段已完成。世界走到了尽头。");
+        Broadcast(MOALocalized(Language(), MOAMsg::AllStagesDone));
         return;
     }
 
@@ -281,9 +290,15 @@ void MOAMgr::Broadcast(std::string const& text) const
     ChatHandler(nullptr).SendWorldText(text);
 }
 
-std::string MOAMgr::BossName(uint32 entry) const
+std::string MOAMgr::BossName(uint32 entry, MOALanguage lang) const
 {
     uint32 const base = BaseBossOf(entry) ? BaseBossOf(entry) : entry;
+    LocaleConstant const locale = MOALocaleFromLanguage(lang);
+
+    if (CreatureLocale const* creatureLocale = sObjectMgr->GetCreatureLocale(base))
+        if (size_t(locale) < creatureLocale->Name.size() && !creatureLocale->Name[locale].empty())
+            return creatureLocale->Name[locale];
+
     if (CreatureTemplate const* tmpl = sObjectMgr->GetCreatureTemplate(base))
         return tmpl->Name;
 
